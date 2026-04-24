@@ -32,6 +32,13 @@ Supports the design of AI-aware academic integrity approaches by defining accept
 
 ---
 
+## Additional Documentation
+
+- [User Instructions](./INSTRUCTIONS.md)
+- [Project Specification](./PROJECT_SPEC.md)
+
+---
+
 ## Overview
 
 The **AI Integrity Design Tool** supports a shift from reactive enforcement to **integrity-by-design**.
