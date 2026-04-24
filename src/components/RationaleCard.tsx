@@ -64,6 +64,27 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
           />
         </div>
       </div>
+
+      <div className="grid-2 mt-4">
+        <div className="cp-form-group">
+          <label className="cp-label">AI Involvement (Optional)</label>
+          <textarea 
+            className="cp-textarea" 
+            value={profile.aiInvolvement || ''} 
+            onChange={(e) => onChange('aiInvolvement', e.target.value)} 
+            placeholder="How was AI used in creating this design?"
+          />
+        </div>
+        <div className="cp-form-group">
+          <label className="cp-label">Assumptions (Optional)</label>
+          <textarea 
+            className="cp-textarea" 
+            value={profile.assumptions || ''} 
+            onChange={(e) => onChange('assumptions', e.target.value)} 
+            placeholder="Key assumptions made during this design..."
+          />
+        </div>
+      </div>
     </div>
   );
 };

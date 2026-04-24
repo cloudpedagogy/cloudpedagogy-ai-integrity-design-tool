@@ -111,6 +111,24 @@ export const OutputArea: React.FC<OutputAreaProps> = ({ state }) => {
           </div>
         </div>
 
+        {integrityProfile.aiInvolvement && (
+          <div className="cp-output-section">
+            <div className="cp-output-heading">AI Involvement</div>
+            <div className="cp-output-content">
+              {integrityProfile.aiInvolvement}
+            </div>
+          </div>
+        )}
+
+        {integrityProfile.assumptions && (
+          <div className="cp-output-section">
+            <div className="cp-output-heading">Assumptions</div>
+            <div className="cp-output-content">
+              {integrityProfile.assumptions}
+            </div>
+          </div>
+        )}
+
         <div className="cp-output-section">
           <div className="cp-output-heading">Institutional Notes</div>
           <div className="cp-output-content">

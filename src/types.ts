@@ -20,6 +20,8 @@ export interface IntegrityProfile {
   staffRationale: string;
   authenticityNotes: string;
   risksOrConcerns: string;
+  aiInvolvement?: string;
+  assumptions?: string;
   reviewNotes?: string;
 }
 
@@ -55,6 +57,8 @@ export const createEmptyState = (): AppState => ({
     staffRationale: '',
     authenticityNotes: '',
     risksOrConcerns: '',
+    aiInvolvement: '',
+    assumptions: '',
     reviewNotes: '',
   },
   institutionalNotes: {
@@ -101,6 +105,8 @@ export const DEMO_STATE: AppState = {
     staffRationale: 'This assessment is designed to evaluate students’ ability to analyse public health policy critically, use evidence appropriately, and construct an independent argument. Limited AI use may support planning and writing development, but unrestricted AI use would undermine the authenticity of the task and reduce confidence that the submitted work represents the student’s own reasoning.',
     authenticityNotes: 'Authenticity is preserved when AI is used only as a support tool and not as a substitute for critical thinking, evidence selection, or policy analysis. The core learning outcome depends on the student demonstrating independent judgement.',
     risksOrConcerns: 'Key risks include over-reliance on AI-generated arguments, shallow engagement with source material, fabricated references, and reduced visibility of the student’s own analytical thinking.',
+    aiInvolvement: 'Drafted integrity guidelines with AI support, followed by module lead review.',
+    assumptions: 'Assumes basic student AI literacy and institutional guideline accessibility.',
     reviewNotes: 'This example is intended as a public health demo scenario and can be adapted for other assessment types later.',
   },
   institutionalNotes: {
