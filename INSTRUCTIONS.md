@@ -84,3 +84,16 @@ The tool expects the following inputs via the UI:
 - **Align with Outcomes:** Ensure the "Staff Rationale" explains how the AI usage position supports the achievement of learning outcomes.
 - **Regular Exports:** Regularly use the "Export JSON" feature to keep backups of your integrity designs outside of the browser.
 - **Use the Demo:** Load the "Demo State" (if available) to see an example of a well-documented postgraduate policy essay.
+---
+
+### 11. Capability and Governance
+
+This tool supports both AI capability development and lightweight governance through a dedicated (optional) reflection layer:
+
+- **What the tool does**: Provides a structured framework for "integrity-by-design" assessment planning.
+- **How capability is developed**: Through the process of reflecting on and defining the relationship between AI use, learning outcomes, and academic integrity.
+- **How governance is supported**: By making design assumptions, risks, and rationale visible and reviewable.
+
+#### Optional Reflection Fields
+- **Capability Notes**: Use this to record how the assessment design supports professional judgement and responsible AI use.
+- **Governance Notes**: Use this to record accountability, review, or escalation considerations beyond the core integrity rationale.

@@ -75,3 +75,12 @@ This tool focuses specifically on the *design* of integrity rather than just the
 - **Phase 4 Assignment**: Inferred from README.
 - **Downstream/Upstream relationships**: Inferred from README and general CloudPedagogy ecosystem knowledge.
 - **Entity Names**: Taken directly from `src/types.ts`.
+
+## Capability and Governance Alignment
+
+This tool is aligned with the CloudPedagogy Capability and Governance standard.
+
+- Capability: The tool supports development of practical AI capability through structured interaction and workflow use.
+- Governance: The tool includes lightweight, optional fields that make assumptions, risks, and decisions visible and reviewable.
+
+This alignment ensures the tool supports both effective use of AI and responsible, accountable practice.

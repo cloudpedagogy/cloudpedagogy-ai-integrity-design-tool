@@ -14,6 +14,7 @@ import { ContextCard } from './components/ContextCard';
 import { AIUsagePositionCard } from './components/AIUsagePositionCard';
 import { ListEditorCard } from './components/ListEditorCard';
 import { RationaleCard } from './components/RationaleCard';
+import { CapabilityGovernanceSection } from './components/CapabilityGovernanceSection';
 import { OutputArea } from './components/OutputArea';
 
 const STORAGE_KEY = 'cp-ai-integrity-state';
@@ -174,6 +175,11 @@ function App() {
             }))}
           />
         </div>
+
+        <CapabilityGovernanceSection 
+          profile={state.integrityProfile}
+          onChange={updateProfile}
+        />
 
         <OutputArea state={state} />
       </main>

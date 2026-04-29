@@ -135,6 +135,24 @@ export const OutputArea: React.FC<OutputAreaProps> = ({ state }) => {
             {institutionalNotes.generalNotes || 'None specified.'}
           </div>
         </div>
+
+        {(integrityProfile.capabilityNotes || integrityProfile.governanceNotes) && (
+          <div className="cp-output-section">
+            <div className="cp-output-heading">Capability and Governance Reflection</div>
+            <div className="cp-output-content">
+              {integrityProfile.capabilityNotes && (
+                <div className="mb-2">
+                  <strong>Capability:</strong> {integrityProfile.capabilityNotes}
+                </div>
+              )}
+              {integrityProfile.governanceNotes && (
+                <div>
+                  <strong>Governance:</strong> {integrityProfile.governanceNotes}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

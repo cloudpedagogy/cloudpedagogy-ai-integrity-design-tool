@@ -23,6 +23,8 @@ export interface IntegrityProfile {
   aiInvolvement?: string;
   assumptions?: string;
   reviewNotes?: string;
+  capabilityNotes?: string;
+  governanceNotes?: string;
 }
 
 export interface InstitutionalNotes {
@@ -60,6 +62,8 @@ export const createEmptyState = (): AppState => ({
     aiInvolvement: '',
     assumptions: '',
     reviewNotes: '',
+    capabilityNotes: '',
+    governanceNotes: '',
   },
   institutionalNotes: {
     generalNotes: '',
@@ -108,6 +112,8 @@ export const DEMO_STATE: AppState = {
     aiInvolvement: 'Drafted integrity guidelines with AI support, followed by module lead review.',
     assumptions: 'Assumes basic student AI literacy and institutional guideline accessibility.',
     reviewNotes: 'This example is intended as a public health demo scenario and can be adapted for other assessment types later.',
+    capabilityNotes: '',
+    governanceNotes: '',
   },
   institutionalNotes: {
     policyReference: 'Refer to local institutional guidance on acceptable use of generative AI in assessment.',
