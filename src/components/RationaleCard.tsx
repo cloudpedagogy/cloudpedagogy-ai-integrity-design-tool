@@ -3,7 +3,7 @@ import type { IntegrityProfile } from '../types';
 
 interface RationaleCardProps {
   profile: IntegrityProfile;
-  onChange: (field: keyof IntegrityProfile, value: string) => void;
+  onChange: <K extends keyof IntegrityProfile>(field: K, value: IntegrityProfile[K]) => void;
 }
 
 export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange }) => {
@@ -11,7 +11,7 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
     <div className="cp-card">
       <div className="cp-card-header">
         <h2 className="cp-card-title">Rationale & Integrity Design</h2>
-        <p className="cp-card-description">Document the reasoning and institutional notes for the chosen AI position.</p>
+        <p className="cp-card-description">Document the reasoning, authenticity considerations, and conditions for the chosen AI position.</p>
       </div>
 
       <div className="cp-form-group">
@@ -82,6 +82,44 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
             value={profile.assumptions || ''} 
             onChange={(e) => onChange('assumptions', e.target.value)} 
             placeholder="Key assumptions made during this design..."
+          />
+        </div>
+      </div>
+
+      <div className="grid-2 mt-4">
+        <div className="cp-form-group">
+          <label className="cp-label" htmlFor="ack-required-select">Acknowledgement Required (Optional)</label>
+          <select
+            id="ack-required-select"
+            aria-label="Acknowledgement Required"
+            className="cp-select"
+            value={
+              profile.acknowledgementRequired === true || profile.acknowledgementRequired === 'true'
+                ? 'true'
+                : profile.acknowledgementRequired === false || profile.acknowledgementRequired === 'false'
+                ? 'false'
+                : ''
+            }
+            onChange={(e) => {
+              const val = e.target.value;
+              onChange('acknowledgementRequired', val === '' ? undefined : val === 'true');
+            }}
+          >
+            <option value="">Not Specified</option>
+            <option value="true">Yes — AI usage declaration required</option>
+            <option value="false">No — Formal declaration not required</option>
+          </select>
+        </div>
+        <div className="cp-form-group">
+          <label className="cp-label" htmlFor="ack-format-input">Acknowledgement Format / Standard (Optional)</label>
+          <input 
+            id="ack-format-input"
+            aria-label="Acknowledgement Format"
+            type="text"
+            className="cp-input" 
+            value={profile.acknowledgementFormat || ''} 
+            onChange={(e) => onChange('acknowledgementFormat', e.target.value)} 
+            placeholder="e.g. Standard declaration form, APA 7th AI citation standard"
           />
         </div>
       </div>
