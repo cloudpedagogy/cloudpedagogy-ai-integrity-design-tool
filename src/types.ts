@@ -6,6 +6,14 @@ export interface Meta {
   assessmentTitle?: string;
   assessmentType?: string;
   level?: string;
+  // Canonical / Historical / Assessment & Integrity Studio fields:
+  unitCode?: string;
+  unitTitle?: string;
+  assessmentName?: string;
+  assessor?: string;
+  academicYear?: string;
+  lastUpdated?: string;
+  [key: string]: unknown;
 }
 
 export interface IntegrityProfile {
@@ -13,9 +21,12 @@ export interface IntegrityProfile {
   title: string;
   contextDescription: string;
   aiUsagePosition: AIUsagePosition;
+  stance?: AIUsagePosition | string;
   acceptableUses: string[];
   unacceptableUses: string[];
   conditions: string[];
+  acknowledgementRequired?: boolean | string;
+  acknowledgementFormat?: string;
   studentGuidance: string;
   staffRationale: string;
   authenticityNotes: string;
@@ -25,11 +36,16 @@ export interface IntegrityProfile {
   reviewNotes?: string;
   capabilityNotes?: string;
   governanceNotes?: string;
+  [key: string]: unknown;
 }
 
 export interface InstitutionalNotes {
   policyReference?: string;
   generalNotes?: string;
+  rationale?: string;
+  staffMonitoringStrategy?: string;
+  reviewDate?: string;
+  [key: string]: unknown;
 }
 
 export interface AppState {
@@ -37,6 +53,7 @@ export interface AppState {
   integrityProfile: IntegrityProfile;
   institutionalNotes: InstitutionalNotes;
   lastUpdated: string;
+  [key: string]: unknown;
 }
 
 export const createEmptyState = (): AppState => ({

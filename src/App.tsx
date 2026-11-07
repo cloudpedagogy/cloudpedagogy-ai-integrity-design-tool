@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import type { 
   AppState, 
@@ -9,6 +9,14 @@ import {
   createEmptyState, 
   DEMO_STATE 
 } from './types';
+import { 
+  STORAGE_KEY, 
+  isRecord, 
+  normalizeState, 
+  saveCorruptedBackup, 
+  validateImportJSON 
+} from './utils/validation';
+import { exportStateAsJSON } from './utils/export';
 import { Header } from './components/Header';
 import { ContextCard } from './components/ContextCard';
 import { AIUsagePositionCard } from './components/AIUsagePositionCard';
@@ -17,26 +25,59 @@ import { RationaleCard } from './components/RationaleCard';
 import { CapabilityGovernanceSection } from './components/CapabilityGovernanceSection';
 import { OutputArea } from './components/OutputArea';
 
-const STORAGE_KEY = 'cp-ai-integrity-state';
-
 function App() {
+  const isDirtyRef = useRef(false);
+
   const [state, setState] = useState<AppState>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error("Failed to parse local storage", e);
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        let parsed: unknown;
+        try {
+          parsed = JSON.parse(saved);
+        } catch (e) {
+          console.warn('Storage contains invalid JSON; preserving raw data non-destructively', e);
+          saveCorruptedBackup(saved);
+          return createEmptyState();
+        }
+
+        if (isRecord(parsed)) {
+          return normalizeState(parsed);
+        } else {
+          console.warn('Storage contains non-object payload; preserving raw data non-destructively');
+          saveCorruptedBackup(saved);
+          return createEmptyState();
+        }
       }
+    } catch (e) {
+      console.error('Failed to read from localStorage', e);
     }
     return createEmptyState();
   });
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    try {
+      const existing = localStorage.getItem(STORAGE_KEY);
+      // Non-destructive safeguard: if storage held unparseable data and user hasn't made mutations,
+      // avoid silently overwriting the original raw data on mount.
+      if (existing && !isDirtyRef.current) {
+        try {
+          const parsed = JSON.parse(existing);
+          if (!isRecord(parsed)) {
+            return;
+          }
+        } catch {
+          return;
+        }
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error('Failed to write to localStorage', e);
+    }
   }, [state]);
 
   const updateMeta = (field: keyof Meta, value: string) => {
+    isDirtyRef.current = true;
     setState(prev => ({
       ...prev,
       meta: { ...prev.meta, [field]: value },
@@ -44,7 +85,8 @@ function App() {
     }));
   };
 
-  const updateProfile = (field: keyof IntegrityProfile, value: any) => {
+  const updateProfile = <K extends keyof IntegrityProfile>(field: K, value: IntegrityProfile[K]) => {
+    isDirtyRef.current = true;
     setState(prev => ({
       ...prev,
       integrityProfile: { ...prev.integrityProfile, [field]: value },
@@ -53,13 +95,7 @@ function App() {
   };
 
   const handleExport = () => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
-    downloadAnchorNode.setAttribute("download", "ai-integrity-design.json");
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+    exportStateAsJSON(state);
   };
 
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,14 +104,24 @@ function App() {
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const imported = JSON.parse(event.target?.result as string);
-        if (imported.integrityProfile) {
-          setState(imported);
-        } else {
-          alert('Invalid JSON file format.');
+        const rawText = event.target?.result as string;
+        let parsed: unknown;
+        try {
+          parsed = JSON.parse(rawText);
+        } catch {
+          alert('Failed to read JSON: File is not valid JSON.');
+          return;
         }
-      } catch (err) {
-        alert('Failed to read JSON.');
+
+        const validation = validateImportJSON(parsed);
+        if (validation.success) {
+          isDirtyRef.current = true;
+          setState(validation.data);
+        } else {
+          alert(validation.error);
+        }
+      } catch {
+        alert('Failed to process JSON file.');
       }
     };
     reader.readAsText(file);
@@ -85,12 +131,14 @@ function App() {
 
   const handleLoadDemo = () => {
     if (window.confirm('This will overwrite current data. Load demo?')) {
+      isDirtyRef.current = true;
       setState(DEMO_STATE);
     }
   };
 
   const handleReset = () => {
     if (window.confirm('Are you sure you want to completely reset the tool? All current data will be lost.')) {
+      isDirtyRef.current = true;
       setState(createEmptyState());
     }
   };
@@ -169,10 +217,14 @@ function App() {
             className="cp-textarea"
             placeholder="E.g. Policy references, alignment with university code of conduct"
             value={state.institutionalNotes.generalNotes || ''}
-            onChange={(e) => setState(prev => ({
-              ...prev,
-              institutionalNotes: { ...prev.institutionalNotes, generalNotes: e.target.value }
-            }))}
+            onChange={(e) => {
+              isDirtyRef.current = true;
+              setState(prev => ({
+                ...prev,
+                institutionalNotes: { ...prev.institutionalNotes, generalNotes: e.target.value },
+                lastUpdated: new Date().toISOString()
+              }));
+            }}
           />
         </div>
 
