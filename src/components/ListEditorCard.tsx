@@ -22,6 +22,8 @@ export const ListEditorCard: React.FC<ListEditorCardProps> = ({
   const [keys, setKeys] = useState<string[]>(() => items.map(() => generateKey()));
   const [prevItemsLength, setPrevItemsLength] = useState(items.length);
 
+  const titleSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
   // Synchronize keys state when item count changes from parent without using an effect
   if (items.length !== prevItemsLength) {
     setPrevItemsLength(items.length);
@@ -161,7 +163,11 @@ export const ListEditorCard: React.FC<ListEditorCardProps> = ({
       </div>
 
       <form onSubmit={handleAddItem} className="cp-list-item mt-2">
+        <label className="visually-hidden" htmlFor={`new-item-${titleSlug}`}>
+          Add new item to {title}
+        </label>
         <input
+          id={`new-item-${titleSlug}`}
           type="text"
           className="cp-input cp-list-item-input"
           placeholder="Type a new item and press Enter..."

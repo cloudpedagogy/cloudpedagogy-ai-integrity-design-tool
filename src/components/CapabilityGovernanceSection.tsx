@@ -12,18 +12,21 @@ export const CapabilityGovernanceSection: React.FC<CapabilityGovernanceSectionPr
   return (
     <div className="cp-card mt-4" style={{ opacity: 0.9 }}>
       <button 
+        type="button"
         onClick={() => setIsExpanded(!isExpanded)}
+        aria-expanded={isExpanded}
+        aria-controls="capability-governance-content"
         className="w-full flex justify-between items-center bg-transparent border-none p-0 cursor-pointer text-left"
         style={{ color: 'inherit' }}
       >
         <h3 className="cp-card-title m-0" style={{ fontSize: '1rem' }}>
           Capability & Governance Reflection Notes (Optional)
         </h3>
-        <span style={{ fontSize: '1.2rem' }}>{isExpanded ? '−' : '+'}</span>
+        <span style={{ fontSize: '1.2rem' }} aria-hidden="true">{isExpanded ? '−' : '+'}</span>
       </button>
       
       {isExpanded && (
-        <div className="mt-4 border-t pt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+        <div id="capability-governance-content" className="mt-4 border-t pt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.1)' }}>
           <p className="cp-card-description mb-4" style={{ fontSize: '0.85rem' }}>
             // Lightweight capability and governance layer
             <br />
@@ -31,11 +34,12 @@ export const CapabilityGovernanceSection: React.FC<CapabilityGovernanceSectionPr
           </p>
 
           <div className="cp-form-group">
-            <label className="cp-label" style={{ fontSize: '0.8rem' }}>Capability Notes</label>
+            <label className="cp-label" htmlFor="capability-notes-textarea" style={{ fontSize: '0.8rem' }}>Capability Notes</label>
             <p className="text-muted mb-1" style={{ fontSize: '0.75rem', fontStyle: 'italic', color: '#666' }}>
               How does this design support responsible AI capability, professional judgement, or reflective practice?
             </p>
             <textarea 
+              id="capability-notes-textarea"
               className="cp-textarea"
               style={{ fontSize: '0.85rem', minHeight: '80px' }}
               placeholder="Enter capability reflections..."
@@ -45,11 +49,12 @@ export const CapabilityGovernanceSection: React.FC<CapabilityGovernanceSectionPr
           </div>
 
           <div className="cp-form-group mt-3">
-            <label className="cp-label" style={{ fontSize: '0.8rem' }}>Governance Notes</label>
+            <label className="cp-label" htmlFor="governance-notes-textarea" style={{ fontSize: '0.8rem' }}>Governance Notes</label>
             <p className="text-muted mb-1" style={{ fontSize: '0.75rem', fontStyle: 'italic', color: '#666' }}>
               What governance, review, accountability, or escalation considerations should be recorded beyond the core rationale, risks, and review notes?
             </p>
             <textarea 
+              id="governance-notes-textarea"
               className="cp-textarea"
               style={{ fontSize: '0.85rem', minHeight: '80px' }}
               placeholder="Enter governance considerations..."

@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ onExport, onImport, onLoadDemo, 
           <p>Design clear, consistent AI integration rules and guidance for assessments.</p>
         </div>
         <div className="cp-header-actions cp-hide-print">
-          <button type="button" className="cp-button-secondary" onClick={handlePrint} aria-label="Print or save as PDF">
+          <button type="button" className="cp-button-secondary" onClick={handlePrint}>
             Print / PDF
           </button>
           <button type="button" className="cp-button-secondary" onClick={onLoadDemo}>
@@ -31,13 +31,15 @@ export const Header: React.FC<HeaderProps> = ({ onExport, onImport, onLoadDemo, 
           <button type="button" className="cp-button-secondary" onClick={onExport}>
             Export JSON
           </button>
-          <label className="cp-button-secondary" style={{ cursor: 'pointer' }}>
+          <label className="cp-button-secondary" style={{ cursor: 'pointer' }} htmlFor="import-json-file-input">
             Import JSON
             <input 
+              id="import-json-file-input"
               type="file" 
               accept=".json" 
               style={{ display: 'none' }} 
               onChange={onImport} 
+              aria-label="Import JSON file"
             />
           </label>
         </div>

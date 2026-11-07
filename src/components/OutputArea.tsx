@@ -4,9 +4,10 @@ import { getPositionLabel, generatePlainTextSummary } from '../utils/summary';
 
 interface OutputAreaProps {
   state: AppState;
+  onAnnounce?: (msg: string) => void;
 }
 
-export const OutputArea: React.FC<OutputAreaProps> = ({ state }) => {
+export const OutputArea: React.FC<OutputAreaProps> = ({ state, onAnnounce }) => {
   const { meta, integrityProfile, institutionalNotes } = state;
   const [copyStatus, setCopyStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -27,6 +28,7 @@ export const OutputArea: React.FC<OutputAreaProps> = ({ state }) => {
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(textToCopy);
         setCopyStatus('success');
+        onAnnounce?.('AI Integrity Statement copied to clipboard.');
         setTimeout(() => setCopyStatus('idle'), 2500);
         return;
       }
@@ -41,13 +43,16 @@ export const OutputArea: React.FC<OutputAreaProps> = ({ state }) => {
       document.body.removeChild(textarea);
       if (success) {
         setCopyStatus('success');
+        onAnnounce?.('AI Integrity Statement copied to clipboard.');
         setTimeout(() => setCopyStatus('idle'), 2500);
       } else {
         setCopyStatus('error');
+        onAnnounce?.('Failed to copy summary to clipboard.');
         setTimeout(() => setCopyStatus('idle'), 3000);
       }
     } catch {
       setCopyStatus('error');
+      onAnnounce?.('Failed to copy summary to clipboard.');
       setTimeout(() => setCopyStatus('idle'), 3000);
     }
   };

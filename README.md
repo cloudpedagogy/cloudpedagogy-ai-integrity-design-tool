@@ -78,26 +78,80 @@ This helps create assessment environments that are:
 
 ## Technical Overview
 
-- Built with TypeScript + Vite (React)  
-- Fully local-first — runs entirely in the browser  
-- Uses localStorage for persistence  
-- Supports JSON import/export  
-- No backend or external data storage  
+- Built with TypeScript + Vite (React 19)  
+- Fully local-first — runs entirely client-side in the browser  
+- Configured with relative asset paths (`base: './'`) for standalone deployment or embedding within iframe / subfolder contexts (e.g. Assessment & Integrity Studio)
+- Non-destructive state persistence in `localStorage` (`cp-ai-integrity-state`) with recovery backup protection (`cp-ai-integrity-state-corrupted-backup`)
+- Safe structural JSON import validation and Blob-based JSON export (`URL.createObjectURL`)
+- Clean Print / Save to PDF output with dedicated media print stylesheet (`@media print`)
+- Comprehensive automated regression testing suite using Vitest and React Testing Library
+- No external runtime dependencies, tracking, telemetry, or backend storage  
 
 ---
 
-## Run Locally
+## Development & Testing
 
-npm install  
-npm run dev  
+### Installation
+
+```bash
+npm install
+```
+
+### Run Locally (Dev Server)
+
+```bash
+npm run dev
+```
+
+### Run Automated Tests
+
+```bash
+# Run full regression test suite (72+ tests)
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### Run Linter
+
+```bash
+npm run lint
+```
+
+### Production Build
+
+```bash
+npm run build
+```
+
+Build outputs are generated in `dist/` with relative asset links (`./assets/...` and `./favicon.svg`), ready for static hosting or local file serving without root-path dependencies.
 
 ---
 
-## Build
+## State Persistence & Data Integrity
 
-npm run build  
+- **Primary Storage Key:** `cp-ai-integrity-state`
+- **Corrupted Data Backup Key:** `cp-ai-integrity-state-corrupted-backup`
+- **Non-Destructive Parsing:** If `localStorage` contains invalid, unrecognized, or corrupted data, the application never silently overwrites it. A backup is safely stored under the backup key, an empty workspace is loaded, and the original invalid data is preserved for manual recovery.
+- **JSON Import Validation:** Structural validation checks schema compatibility, rejects malformed payloads with clear error messages, and preserves the currently active workspace if an import fails.
+- **Export Reliability:** Exports are generated as standard UTF-8 JSON files using client-side Blob URLs with automatic resource cleanup.
 
 ---
+
+## Print & PDF Export
+
+- Access via the **Print / Save to PDF** button in the header or the Guidance Summary section, or using standard browser shortcuts (`Ctrl+P` / `Cmd+P`).
+- Form controls, action buttons, starter chips, navigation elements, and the live status region are hidden in print mode (`.cp-hide-print`).
+- The printable summary formats assessment context, AI stance, acceptable/unacceptable lists, caveats, rationale, and institutional policy references cleanly without clipped margins or nested scrollbars.
+
+---
+
+## Operational Limitations
+
+- **Browser-Side Storage Quotas:** State persistence is subject to the client browser's origin `localStorage` quota (typically 5MB).
+- **Client-Side Print / PDF:** PDF generation relies on the native browser print engine ("Save as PDF"); formatting may vary slightly across different PDF rasterizers and printer drivers.
+- **Clipboard Permissions:** In environments where `navigator.clipboard` is restricted or unavailable (e.g. non-HTTPS iframes), the application automatically attempts an `execCommand` fallback.
 
 ## Design Principles
 

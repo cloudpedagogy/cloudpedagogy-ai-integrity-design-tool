@@ -27,6 +27,11 @@ import { OutputArea } from './components/OutputArea';
 
 function App() {
   const isDirtyRef = useRef(false);
+  const [statusAnnouncement, setStatusAnnouncement] = useState('');
+
+  const announce = (msg: string) => {
+    setStatusAnnouncement(msg);
+  };
 
   const [state, setState] = useState<AppState>(() => {
     try {
@@ -102,6 +107,7 @@ function App() {
 
   const handleExport = () => {
     exportStateAsJSON(state);
+    announce('Design exported as JSON.');
   };
 
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +122,7 @@ function App() {
           parsed = JSON.parse(rawText);
         } catch {
           alert('Failed to read JSON: File is not valid JSON.');
+          announce('Import failed: File is not valid JSON.');
           return;
         }
 
@@ -123,11 +130,14 @@ function App() {
         if (validation.success) {
           isDirtyRef.current = true;
           setState(validation.data);
+          announce('Design imported successfully.');
         } else {
           alert(validation.error);
+          announce(`Import failed: ${validation.error}`);
         }
       } catch {
         alert('Failed to process JSON file.');
+        announce('Import failed: Error processing file.');
       }
     };
     reader.readAsText(file);
@@ -139,6 +149,7 @@ function App() {
     if (window.confirm('This will overwrite current data. Load demo?')) {
       isDirtyRef.current = true;
       setState(DEMO_STATE);
+      announce('Demo data loaded successfully.');
     }
   };
 
@@ -146,11 +157,22 @@ function App() {
     if (window.confirm('Are you sure you want to completely reset the tool? All current data will be lost.')) {
       isDirtyRef.current = true;
       setState(createEmptyState());
+      announce('Tool reset to clean state.');
     }
   };
 
   return (
     <div className="app-container">
+      {/* Accessible live region for screen-reader announcements */}
+      <div 
+        role="status" 
+        aria-live="polite" 
+        aria-atomic="true" 
+        className="visually-hidden"
+      >
+        {statusAnnouncement}
+      </div>
+
       <Header 
         onExport={handleExport} 
         onImport={handleImport} 
@@ -224,8 +246,9 @@ function App() {
               <p className="cp-card-description">Reference institutional policies, codes of conduct, or monitoring notes.</p>
             </div>
             <div className="cp-form-group">
-              <label className="cp-label">Policy Reference</label>
+              <label className="cp-label" htmlFor="inst-policy-reference-input">Policy Reference</label>
               <input 
+                id="inst-policy-reference-input"
                 type="text"
                 className="cp-input"
                 placeholder="e.g. University Code of Academic Integrity 2026, Section 4.2"
@@ -241,8 +264,9 @@ function App() {
               />
             </div>
             <div className="cp-form-group">
-              <label className="cp-label">General Institutional Notes</label>
+              <label className="cp-label" htmlFor="inst-general-notes-textarea">General Institutional Notes</label>
               <textarea 
+                id="inst-general-notes-textarea"
                 className="cp-textarea"
                 placeholder="E.g. Policy references, alignment with university code of conduct"
                 value={state.institutionalNotes.generalNotes || ''}
@@ -264,7 +288,7 @@ function App() {
           />
         </div>
 
-        <OutputArea state={state} />
+        <OutputArea state={state} onAnnounce={announce} />
       </main>
     </div>
   );

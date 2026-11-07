@@ -15,8 +15,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
       </div>
 
       <div className="cp-form-group">
-        <label className="cp-label">Student Guidance text</label>
+        <label className="cp-label" htmlFor="student-guidance-textarea">Student Guidance text</label>
         <textarea 
+          id="student-guidance-textarea"
           className="cp-textarea" 
           value={profile.studentGuidance || ''} 
           onChange={(e) => onChange('studentGuidance', e.target.value)} 
@@ -25,8 +26,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
       </div>
 
       <div className="cp-form-group">
-        <label className="cp-label">Staff Rationale text</label>
+        <label className="cp-label" htmlFor="staff-rationale-textarea">Staff Rationale text</label>
         <textarea 
+          id="staff-rationale-textarea"
           className="cp-textarea" 
           value={profile.staffRationale || ''} 
           onChange={(e) => onChange('staffRationale', e.target.value)} 
@@ -35,8 +37,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
       </div>
 
       <div className="cp-form-group">
-        <label className="cp-label">Authenticity Notes</label>
+        <label className="cp-label" htmlFor="authenticity-notes-textarea">Authenticity Notes</label>
         <textarea 
+          id="authenticity-notes-textarea"
           className="cp-textarea" 
           value={profile.authenticityNotes || ''} 
           onChange={(e) => onChange('authenticityNotes', e.target.value)} 
@@ -46,8 +49,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
 
       <div className="grid-2">
         <div className="cp-form-group">
-          <label className="cp-label">Risks or Concerns</label>
+          <label className="cp-label" htmlFor="risks-concerns-textarea">Risks or Concerns</label>
           <textarea 
+            id="risks-concerns-textarea"
             className="cp-textarea" 
             value={profile.risksOrConcerns || ''} 
             onChange={(e) => onChange('risksOrConcerns', e.target.value)} 
@@ -55,8 +59,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
           />
         </div>
         <div className="cp-form-group">
-          <label className="cp-label">Review Notes (Optional)</label>
+          <label className="cp-label" htmlFor="review-notes-textarea">Review Notes (Optional)</label>
           <textarea 
+            id="review-notes-textarea"
             className="cp-textarea" 
             value={profile.reviewNotes || ''} 
             onChange={(e) => onChange('reviewNotes', e.target.value)} 
@@ -67,8 +72,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
 
       <div className="grid-2 mt-4">
         <div className="cp-form-group">
-          <label className="cp-label">AI Involvement (Optional)</label>
+          <label className="cp-label" htmlFor="ai-involvement-textarea">AI Involvement (Optional)</label>
           <textarea 
+            id="ai-involvement-textarea"
             className="cp-textarea" 
             value={profile.aiInvolvement || ''} 
             onChange={(e) => onChange('aiInvolvement', e.target.value)} 
@@ -76,8 +82,9 @@ export const RationaleCard: React.FC<RationaleCardProps> = ({ profile, onChange 
           />
         </div>
         <div className="cp-form-group">
-          <label className="cp-label">Assumptions (Optional)</label>
+          <label className="cp-label" htmlFor="assumptions-textarea">Assumptions (Optional)</label>
           <textarea 
+            id="assumptions-textarea"
             className="cp-textarea" 
             value={profile.assumptions || ''} 
             onChange={(e) => onChange('assumptions', e.target.value)} 

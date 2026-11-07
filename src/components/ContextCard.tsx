@@ -18,8 +18,9 @@ export const ContextCard: React.FC<ContextCardProps> = ({ meta, profile, onMetaC
 
       <div className="grid-2">
         <div className="cp-form-group">
-          <label className="cp-label">Programme Name</label>
+          <label className="cp-label" htmlFor="programme-name-input">Programme Name</label>
           <input 
+            id="programme-name-input"
             type="text" 
             className="cp-input" 
             value={meta.programmeName || ''} 
@@ -28,8 +29,9 @@ export const ContextCard: React.FC<ContextCardProps> = ({ meta, profile, onMetaC
           />
         </div>
         <div className="cp-form-group">
-          <label className="cp-label">Module Name</label>
+          <label className="cp-label" htmlFor="module-name-input">Module Name</label>
           <input 
+            id="module-name-input"
             type="text" 
             className="cp-input" 
             value={meta.moduleName || ''} 
@@ -38,8 +40,9 @@ export const ContextCard: React.FC<ContextCardProps> = ({ meta, profile, onMetaC
           />
         </div>
         <div className="cp-form-group">
-          <label className="cp-label">Assessment Title</label>
+          <label className="cp-label" htmlFor="assessment-title-input">Assessment Title</label>
           <input 
+            id="assessment-title-input"
             type="text" 
             className="cp-input" 
             value={meta.assessmentTitle || ''} 
@@ -48,8 +51,9 @@ export const ContextCard: React.FC<ContextCardProps> = ({ meta, profile, onMetaC
           />
         </div>
         <div className="cp-form-group">
-          <label className="cp-label">Level</label>
+          <label className="cp-label" htmlFor="level-input">Level</label>
           <input 
+            id="level-input"
             type="text" 
             className="cp-input" 
             value={meta.level || ''} 
@@ -58,8 +62,9 @@ export const ContextCard: React.FC<ContextCardProps> = ({ meta, profile, onMetaC
           />
         </div>
         <div className="cp-form-group">
-          <label className="cp-label">Assessment Type</label>
+          <label className="cp-label" htmlFor="assessment-type-select">Assessment Type</label>
           <select 
+            id="assessment-type-select"
             className="cp-select"
             value={meta.assessmentType || ''}
             onChange={(e) => onMetaChange('assessmentType', e.target.value)}
@@ -83,8 +88,9 @@ export const ContextCard: React.FC<ContextCardProps> = ({ meta, profile, onMetaC
       </div>
 
       <div className="cp-form-group mt-4">
-        <label className="cp-label">Short Context Description</label>
+        <label className="cp-label" htmlFor="context-description-textarea">Short Context Description</label>
         <textarea 
+          id="context-description-textarea"
           className="cp-textarea" 
           value={profile.contextDescription || ''} 
           onChange={(e) => onProfileChange('contextDescription', e.target.value)} 

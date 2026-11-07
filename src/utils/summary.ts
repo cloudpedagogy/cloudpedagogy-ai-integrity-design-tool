@@ -139,3 +139,4 @@ export function generatePlainTextSummary(state: AppState): string {
 
   return lines.join('\n');
 }
+
